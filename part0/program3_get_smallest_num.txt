@@ -6,5 +6,5 @@ sc.textFile("test.txt").sortBy(line => line.toInt,true,1).first()
 spark.read.textFile("test.txt").sort("value").first()
 
 3. Dataframe
-spark.read.text("test.txt").selectExpr("min(value)").show()
+spark.read.text("test.txt").selectExpr("min(value)").first()
 

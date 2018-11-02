@@ -6,4 +6,4 @@ sc.textFile("test.txt").map(line => line.toInt).sum()
 spark.read.textFile("test.txt").map(line => line.toInt).reduce((a,b)=>a+b)
 
 3. Dataframe
-spark.read.text("test.txt").selectExpr("sum(value)").show
+spark.read.text("test.txt").selectExpr("sum(value)").first()
