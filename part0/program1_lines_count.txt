@@ -1,0 +1,9 @@
+Count lines of a file:
+1. RDD
+sc.textFile("test.txt").count()
+
+2. Dataset
+spark.read.textFile("test.txt").count()
+
+3. Dataframe
+spark.read.text("test.txt").count()

@@ -1,0 +1,9 @@
+Sum:
+1. RDD
+sc.textFile("test.txt").map(line => line.toInt).sum()
+
+2. Dataset
+spark.read.textFile("test.txt").map(line => line.toInt).reduce((a,b)=>a+b)
+
+3. Dataframe
+spark.read.text("test.txt").selectExpr("sum(value)").show
