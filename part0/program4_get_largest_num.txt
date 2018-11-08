@@ -1,0 +1,9 @@
+Get largest number:
+1. RDD
+sc.textFile("test.txt").map(line=>line.toInt).max()
+
+2. Dataset
+spark.read.textFile("test.txt").orderBy($"value" desc).first()
+
+3. Dataframe
+spark.read.text("test.txt").selectExpr("max(value)").first()

@@ -1,0 +1,9 @@
+Sum up all even numbers from 1 to 100
+1. RDD
+sc.range(1,101).filter(num=>num%2==0).sum()
+
+2. Dataset
+spark.range(101).filter(i=>i%2==0).reduce((a,b)=>a+b)
+
+3. Dataframe
+spark.range(101).toDF("value").where("value%2==0").selectExpr("sum(value)").show()

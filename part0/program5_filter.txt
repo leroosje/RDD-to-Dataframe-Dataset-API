@@ -1,0 +1,9 @@
+Filer numbers that are larger than 5 and print them out:
+1. RDD
+sc.textFile("test.txt").map(line => line.toInt).filter(num => num > 5).foreach(println)
+
+2. Dataset
+spark.read.textFile("test.txt").filter("value > 5").show()
+
+3. Dataframe
+spark.read.text("test.txt").filter("value > 5").show()
