@@ -1,34 +1,47 @@
+/**
+ * This is the token class used to check the input against the RE and identify the correct token
+ */
 
+/**
+ * @author Danny Reinheimer
+ *
+ */
 public class Token {
+	
+	private TokenGrammar tg;
+	
+	public Token() {
+		this.tg = new TokenGrammar();
+	}
+	
+	/**
+	 * Takes in the parsed input and checks it againts all the regular expressions with priority
+	 * @param str the input string to test
+	 * @return the name of the token
+	 */
+	public TokenNames getToken(String str) {
+				
+		// First check to see if it is meta statement
+		if(tg.isMetaStatement(str)) {
+			return TokenNames.MetaStatements;
+		}
 
-	private String value;
-	private int charLocation;
-	
-	public Token(String val) {
-		this.value = val;
-		charLocation = 0;
-	}
-	
-	public char getChar(int i) {
-		return value.charAt(i);
-	}
-	
-	public void nextChar() {
-		charLocation++;
-		if(charLocation == value.length()) {
-			charLocation--;
+		if(tg.isIdentifier(str)) {
+			return TokenNames.Identifier;
 		}
-	}
-	
-	public void prevChar() {
-		charLocation--;
-		if(charLocation == -1) {
-			charLocation++;
+		
+		if(tg.isNumber(str)) {
+			return TokenNames.Number;
 		}
+		
+		if(tg.isString(str)) {
+			return TokenNames.String;
+		}
+		if(tg.isSymbol(str)) {
+			return TokenNames.Symbol;
+		}
+
+		return TokenNames.None;
 	}
-	
-	public String getVal() {
-		return this.value;
-	}
+
 }
-
