@@ -21,6 +21,7 @@ public class TokenGrammar {
 	 * @author Danny Reinheimer @
 	 */
 	public boolean isSpace(String str) {
+		System.out.println("isSpace");
 		char ch = str.charAt(0);
 		// if(ch == ' ') {
 		for (int i = 0; i < str.length(); i++) {
@@ -30,13 +31,14 @@ public class TokenGrammar {
 				return false;
 			}
 		}
+			System.out.println("Im true");
 		return true;
 		// }
 		// return false;
 	}
 
 	public boolean isMetaStatement(String str) {
-
+		System.out.println("isMetaStatement");
 		// Check to see if we are starting with a # and there is something after it
 		if (str.charAt(0) == 'i' && str.length() > 6) {
 			// Check to see if we end with a newline
@@ -49,24 +51,28 @@ public class TokenGrammar {
 									// this is a meta statement
 									return true;
 								}
-								return false;
+							
 							}
-							return false;
+						
 						}
-						return false;
+					
 					}
-					return false;
+					
 				}
-				return false;
+			
 			}
-			return false;
+			
 		}
 
-		// Check to see if we start with //
-		if (str.charAt(0) == '/' && str.length() > 1) {
+		if(str.charAt(0) == '/' && str.length() > 1) {
+			System.out.println("I should be here!");
 			// if the second character is / and we end with newline
-			if (str.charAt(1) == '/' && str.charAt(str.length() - 1) == '\n') {
-				return true;
+			if(str.charAt(1) == '/'){ 
+				System.out.println("I should be here too!");
+				if(str.charAt(str.length()-1) == '\n') {
+					System.out.println("Im true");
+					return true;
+				}
 			}
 		}
 		return false;
@@ -97,7 +103,7 @@ public class TokenGrammar {
 
 	public boolean isNumber(String s) {
 		int i = 0;
-
+		System.out.println("isNumber");
 		// Checks to see if there is at least one char in the token
 		if (digit(s.charAt(i))) {
 			i++;
@@ -111,6 +117,7 @@ public class TokenGrammar {
 
 		// If it made it to the end of the string, return true.
 		if (i == s.length()) {
+			System.out.println("Im true");
 			return true;
 		}
 
@@ -119,14 +126,14 @@ public class TokenGrammar {
 
 	public boolean isIdentifier(String s) {
 		int i = 0;
-
+		System.out.println("isIdentifier");
 		// Checks to see if there is at least one letter at the start
-		if (letter(s.charAt(i))) {
+		if (letter(s.charAt(i)) && s.length() > 1) {
 			i++;
 
 			// Iterates through the rest of the tokens value, checking for digit || letter,
 			// until the end of the string
-			while ((letter(s.charAt(i)) || digit(s.charAt(i))) && i < s.length()) {
+			while (i < s.length() && (letter(s.charAt(i)) || digit(s.charAt(i)))) {
 				i++;
 			}
 
@@ -134,6 +141,7 @@ public class TokenGrammar {
 
 		// If it made it to the end of the string, return true.
 		if (i == s.length()) {
+			System.out.println("Im true");
 			return true;
 		}
 
@@ -141,12 +149,13 @@ public class TokenGrammar {
 	}
 
 	public boolean isString(String s) {
-
+		System.out.println("isString");
 		// Checks if the first char is "
 		if (s.charAt(0) == '"') {
 
 			// Checks if the last char is "
-			if (s.charAt(s.length() - 1) == '"') {
+			if (s.charAt(s.length() - 1) == '"') {	
+				System.out.println("Im true");
 				return true;
 			}
 
@@ -155,7 +164,7 @@ public class TokenGrammar {
 	}
 
 	public boolean isCharacter(String s) {
-
+		System.out.println("isChar");
 		// Any char token is guarenteed length 3, 'x'
 		if (s.length() == 3) {
 
@@ -164,6 +173,7 @@ public class TokenGrammar {
 
 				// Checks if the last char is an '
 				if (s.charAt(2) == 39) {
+					System.out.println("Im true");
 					return true;
 				}
 
@@ -172,19 +182,18 @@ public class TokenGrammar {
 		return false;
 	}
 
+	private String [] symbols = {"(",")","{","}","[","]",",",";","+","-","*","/","==","!=",">",">=","<","<=",
+			"=","&&","||"};
 	public boolean isSymbol(String s) {
-
-		// Checks for length 1
-		if (s.length() > 1) {
-
-			// If its anything thats not something above, and not a space, its a symbol.
-			for(int i = 0; i < s.length(); i++) {
-				if(s.charAt(i) == ' ') {
-					return false;
-				}
+		// Iterate through the list of symbols to see if the string equals any of them
+		for(String symbol: symbols) {
+			if(s.equals(symbol)) {
+				// This is a symbol
+				return true;
 			}
 		}
-
-		return true;
+		// if no matches then not a symbol
+		return false;
 	}
+	
 }

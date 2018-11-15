@@ -6,6 +6,9 @@
  * @author Danny Reinheimer
  *
  */
+
+import java.util.ArrayList;
+
 public class Token {
 	
 	private TokenGrammar tg;
@@ -20,12 +23,11 @@ public class Token {
 	 * @return the name of the token
 	 */
 	public TokenNames getToken(String str) {
-				
+			
 		// First check to see if it is meta statement
 		if(tg.isMetaStatement(str)) {
 			return TokenNames.MetaStatements;
 		}
-
 		if(tg.isIdentifier(str)) {
 			return TokenNames.Identifier;
 		}
@@ -37,9 +39,15 @@ public class Token {
 		if(tg.isString(str)) {
 			return TokenNames.String;
 		}
+
+		if(tg.isSpace(str)) {
+			return TokenNames.Space;
+		}
+
 		if(tg.isSymbol(str)) {
 			return TokenNames.Symbol;
 		}
+		
 
 		return TokenNames.None;
 	}

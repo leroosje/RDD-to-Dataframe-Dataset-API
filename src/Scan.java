@@ -68,6 +68,7 @@ public class Scan {
 	 * @return Token for the given input
 	 */
 	public Pair<TokenNames,String> getNextToken() {
+		System.out.println("");
 		lastFoundToken = TokenNames.None;  // reset the token names when we search for new tokens
 		TokenNames currentToken = TokenNames.None;
 		foundToken = false;
@@ -77,6 +78,7 @@ public class Scan {
 		while((ch = getNextChar()) != '\n' && ch != '\u001a') {
 			characters += "" + ch;			
 			// check for token
+			System.out.println("Im the string being checked: " + characters);
 			currentToken = token.getToken(characters);
 			if(currentToken != TokenNames.None) {
 				foundToken = true;
@@ -85,7 +87,7 @@ public class Scan {
 			// if we have already found a token and the current token is none
 			// then we no the token is the current string minus the last character
 			// to avoid erros we ignore // since it will be picked up latter
-			if(foundToken && currentToken == TokenNames.None && !characters.contains("//")) {
+			if(foundToken  && currentToken == TokenNames.None && !characters.contains("//")) {
 				String tokenValue = characters.substring(0, characters.length()-1);  // gets the string minus the last char
 				lastReadChar = characters.charAt(characters.length() -1); // save the last character to use it to start from
 				useLastReadChar = true;
