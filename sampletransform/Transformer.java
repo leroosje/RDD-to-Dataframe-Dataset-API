@@ -1,7 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 public class Transformer {
 	
@@ -10,10 +7,15 @@ public class Transformer {
 
 	public static void main(String args[]) {
 		try {
-
+			file = "";
 			String programName = args[0];
-			fileInput = new FileInputStream(programName);
-			file = fileInput.toString();
+			FileReader fr = new FileReader(programName);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			while((line = br.readLine()) != null){
+				file += line;
+			}
+			br.close();
 		} catch (Exception e) {
 			System.err.println("Invalid file!");
 			System.exit(1);
@@ -21,86 +23,95 @@ public class Transformer {
 		
 		try {
 			PrintWriter writer = new PrintWriter("test.txt", "UTF-8");
-			
+			transform();
 			writer.print(file);
 			
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("fucked");
 			System.exit(1);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("also fucked");
 			System.exit(1);
 		}
 		
 	}
 	
-	public void transform() {
+	public static void transform() {
+		System.out.println("IM HEREEE");
+		System.out.println(file);
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < file.length(); i++) {
-			if(file.substring(i, i+1).equals("sc")){
-				sb.append(file.substring(0,i-1));
+		for(int i = 0; i < file.length()-1; i++) {
+			System.out.println(file.substring(i,i+2));
+			if(file.substring(i, i+2).equals("sc")){
+				System.out.println("save me");
+				sb.append(file.substring(0,i));
 				sb.append("spark");
-				sb.append(file.substring(i+2,file.length()-1));
+				sb.append(file.substring(i+2,file.length()));
+				i += 2;
 				file = sb.toString();
-			}
+			}			
 		}
-		
-		for(int i = 0; i < file.length(); i++) {
-			if(file.substring(i, i+7).equals("textFile")){
-				sb.append(file.substring(0,i-1));
+		System.out.println(file);
+		sb = new StringBuilder();
+		for(int i = 0; i < file.length()-7; i++) {
+			if(file.substring(i, i+8).equals("textFile")){
+				sb.append(file.substring(0,i));
 				sb.append("read.textFile");
-				sb.append(file.substring(i+8,file.length()-1));
+				sb.append(file.substring(i+8,file.length()));
+				i+=8;
 				file = sb.toString();
 			}
 		}
-		
-		for(int i = 0; i < file.length(); i++) {
-			if(file.substring(i, i+6).equals("reduce(")){
-				sb.append(file.substring(0,i-1));
+		sb = new StringBuilder();
+		for(int i = 0; i < file.length()-6; i++) {
+			if(file.substring(i, i+7).equals("reduce(")){
+				sb.append(file.substring(0,i));
 				sb.append("select(reduceAggregator(");
 				int finalInd = findEndParenthesis(i+6);
-				sb.append(file.substring(i+7,finalInd));
+				sb.append(file.substring(i+7,finalInd+1));
 				sb.append(").collect()");
-				sb.append(file.substring(finalInd+1,file.length()-1));
+				sb.append(file.substring(finalInd+1,file.length()));
+				i+=finalInd + 1;
 				file = sb.toString();
 			}
 		}
-		
-		for(int i = 0; i < file.length(); i++) {
-			if(file.substring(i, i+11).equals("reduceByKey(")){
-				sb.append(file.substring(0,i-1));
+		sb = new StringBuilder();
+		for(int i = 0; i < file.length()-11; i++) {
+			if(file.substring(i, i+12).equals("reduceByKey(")){
+				sb.append(file.substring(0,i));
 				sb.append("groupByKey(_._1).agg(reduceByKeyAggregator(");
 				int finalInd = findEndParenthesis(i+11);
-				sb.append(file.substring(i+12,finalInd));
+				sb.append(file.substring(i+12,finalInd+1));
 				sb.append(")");
-				sb.append(file.substring(finalInd+1,file.length()-1));
+				sb.append(file.substring(finalInd+1,file.length()));
+				i+=finalInd + 1;
 				file = sb.toString();
 			}
 		}
-		
-		for(int i = 0; i < file.length(); i++) {
-			if(file.substring(i, i+6).equals("sortBy(")){
-				sb.append(file.substring(0,i-1));
+		sb = new StringBuilder();
+		for(int i = 0; i < file.length()-6; i++) {
+			if(file.substring(i, i+7).equals("sortBy(")){
+				sb.append(file.substring(0,i));
 				sb.append("map(row=>((");
 				int finalInd = findEndParenthesis(i+6);
-				sb.append(file.substring(i+6,finalInd));
+				sb.append(file.substring(i+6,finalInd+1));
 				sb.append("(row), row)).orderBy(_1).map(_._2)");
-				sb.append(file.substring(finalInd+1,file.length()-1));
+				sb.append(file.substring(finalInd+1,file.length()));
+				i+=finalInd + 1;
 				file = sb.toString();
 			}
 		}
-		
 		
 	}
 	
-	private int findEndParenthesis(int i) {
+	private static int findEndParenthesis(int i) {
 		
 		int balance = 1;
 		
-		while(balance != 0) {
+		while(balance != 0 && i < file.length()) {
 			i++;
 			if(file.charAt(i) == '(') {
 				balance++;
