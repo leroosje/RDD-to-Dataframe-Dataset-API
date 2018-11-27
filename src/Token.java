@@ -24,10 +24,6 @@ public class Token {
 	 */
 	public TokenNames getToken(String str) {
 			
-		// First check to see if it is meta statement
-		if(tg.isMetaStatement(str)) {
-			return TokenNames.MetaStatements;
-		}
 		if(tg.isIdentifier(str)) {
 			return TokenNames.Identifier;
 		}

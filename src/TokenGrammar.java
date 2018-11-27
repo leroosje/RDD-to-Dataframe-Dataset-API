@@ -37,46 +37,6 @@ public class TokenGrammar {
 		// return false;
 	}
 
-	public boolean isMetaStatement(String str) {
-		System.out.println("isMetaStatement");
-		// Check to see if we are starting with a # and there is something after it
-		if (str.charAt(0) == 'i' && str.length() > 6) {
-			// Check to see if we end with a newline
-			if (str.charAt(1) == 'm') {
-				if (str.charAt(2) == 'p') {
-					if (str.charAt(3) == 'o') {
-						if (str.charAt(4) == 'r') {
-							if (str.charAt(5) == 't') {
-								if (str.charAt(str.length() - 1) == '\n') {
-									// this is a meta statement
-									return true;
-								}
-							
-							}
-						
-						}
-					
-					}
-					
-				}
-			
-			}
-			
-		}
-
-		if(str.charAt(0) == '/' && str.length() > 1) {
-			System.out.println("I should be here!");
-			// if the second character is / and we end with newline
-			if(str.charAt(1) == '/'){ 
-				System.out.println("I should be here too!");
-				if(str.charAt(str.length()-1) == '\n') {
-					System.out.println("Im true");
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	// Helper to determine if a char is a letter
 	public boolean letter(char c) {
