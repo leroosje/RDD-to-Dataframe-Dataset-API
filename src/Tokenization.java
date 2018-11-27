@@ -42,11 +42,11 @@ public class Tokenization {
 				if (tokenPair.getKey() != TokenNames.None) {
 					String newName = "(" + tokenPair.getKey() + ", " + tokenPair.getValue() + ")";
 					writer.print(newName);
-					// }
-					// else {
-					// // just add it to the output with out modifying the values
-					// writer.print(tokenPair.getValue());
-					// }
+					/*
+					 * This is where the transformation is going to go. Or rather,
+					 * its gonna be a bunch of if statements looking for things needing to be transformed
+					 * and calling specific functions that writes out proper things to the file
+					 */
 				} else {
 					hasInvalid = true;
 				}
@@ -65,4 +65,20 @@ public class Tokenization {
 
 	}
 
+	
+	private static void sc() {
+		
+	}
+	private static void textFile() {
+		
+	}
+	private static void reduce() {
+		
+	}
+	private static void reduceByKey() {
+		
+	}
+	private static void sortBy() {
+		
+	}
 }
