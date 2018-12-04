@@ -27,7 +27,8 @@ public class Tokenization {
 		String fileName = args[0];
 		Scan scan = new Scan(fileName);
 		Pair<TokenNames, String> tokenPair;
-
+		Transformer tf = new Transformer();
+		
 		try {
 			// get the name of the file minus the dot
 			int pos = fileName.lastIndexOf(".");
@@ -41,6 +42,7 @@ public class Tokenization {
 				// !tokenPair.getValue().equals("main")) {
 				if (tokenPair.getKey() != TokenNames.None) {
 					String newName = "(" + tokenPair.getKey() + ", " + tokenPair.getValue() + ")";
+					newName = tf.transform(newName);
 					writer.print(newName);
 					/*
 					 * This is where the transformation is going to go. Or rather,
@@ -63,22 +65,5 @@ public class Tokenization {
 			System.exit(1);
 		}
 
-	}
-
-	
-	private static void sc() {
-		
-	}
-	private static void textFile() {
-		
-	}
-	private static void reduce() {
-		
-	}
-	private static void reduceByKey() {
-		
-	}
-	private static void sortBy() {
-		
 	}
 }
