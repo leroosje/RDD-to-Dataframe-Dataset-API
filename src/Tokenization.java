@@ -41,7 +41,7 @@ public class Tokenization {
 				// if(tokenPair.getKey() == TokenNames.Identifier &&
 				// !tokenPair.getValue().equals("main")) {
 				if (tokenPair.getKey() != TokenNames.None) {
-					String newName = "(" + tokenPair.getKey() + ", " + tokenPair.getValue() + ")";
+					String newName = tokenPair.getValue();
 					newName = tf.transform(newName);
 					writer.print(newName);
 					/*

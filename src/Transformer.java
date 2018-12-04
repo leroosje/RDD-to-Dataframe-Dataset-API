@@ -36,7 +36,7 @@ public class Transformer {
 				s = sb.toString();
 			}
 
-			if(s.equals("sortBy(")){
+			if(s.equals("sortBy")){
 				sb.append("map(row=>((");
 				sb.append("(row), row)).orderBy(_1).map(_._2)");
 				s= sb.toString();

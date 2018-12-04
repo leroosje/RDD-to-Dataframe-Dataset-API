@@ -70,7 +70,7 @@ public class TokenGrammar {
 
 			// iterates through the token's chars until it runs into a char that isnt a
 			// digit, or end of string
-			while (digit(s.charAt(i)) && i < s.length()) {
+			while (i < s.length() && digit(s.charAt(i))) {
 				i++;
 			}
 		}
@@ -143,7 +143,7 @@ public class TokenGrammar {
 	}
 
 	private String [] symbols = {"(",")","{","}","[","]",",",";","+","-","*","/","==","!=",">",">=","<","<=",
-			"=","&&","||"};
+			"=","&&","||",".","%"};
 	public boolean isSymbol(String s) {
 		// Iterate through the list of symbols to see if the string equals any of them
 		for(String symbol: symbols) {
