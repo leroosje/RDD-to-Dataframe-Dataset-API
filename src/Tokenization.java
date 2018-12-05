@@ -8,7 +8,10 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * @author Danny Reinheimer
- *
+ * Much of this class was written by Danny Reinheimer under Dr. Xipeng Shen and was
+ * was used with permission of Dr. Shen for this project.
+ * 
+ * All transformation rules within main have been added and created by Luke Roosje
  */
 public class Tokenization {
 
@@ -27,7 +30,6 @@ public class Tokenization {
 		String fileName = args[0];
 		Scan scan = new Scan(fileName);
 		Pair<TokenNames, String> tokenPair;
-		Transformer tf = new Transformer();
 		
 		try {
 			// get the name of the file minus the dot
@@ -42,7 +44,57 @@ public class Tokenization {
 				// !tokenPair.getValue().equals("main")) {
 				if (tokenPair.getKey() != TokenNames.None) {
 					String newName = tokenPair.getValue();
-					newName = tf.transform(newName);
+					StringBuilder sb = new StringBuilder();
+					
+					if(newName.equals("sc")){
+						System.out.println("save me");
+						
+						sb.append("spark");
+
+					newName = sb.toString();
+					}			
+				
+					if(newName.equals("textFile")){
+
+						sb.append("read.textFile");
+
+						newName = sb.toString();
+					}
+			
+					if(newName.equals("reduce")){
+						sb.append("select(reduceAggregator");
+						tokenPair = scan.getNextToken();
+						while(!tokenPair.getValue().equals(")")) {
+							sb.append(tokenPair.getValue());
+							tokenPair = scan.getNextToken();
+						}
+						sb.append(")).collect()");
+						newName = sb.toString();
+					}
+
+					if(newName.equals("reduceByKey")){
+						
+						sb.append("groupByKey(_._1).agg(reduceByKeyAggregator");
+						tokenPair = scan.getNextToken();
+						while(!tokenPair.getValue().equals(")")) {
+							sb.append(tokenPair.getValue());
+							tokenPair = scan.getNextToken();
+						}
+						sb.append("))");
+						newName = sb.toString();
+					}
+
+					if(newName.equals("sortBy")){
+						sb.append("map(row=>(");
+						tokenPair = scan.getNextToken();
+						while(!tokenPair.getValue().equals(")")) {
+							sb.append(tokenPair.getValue());
+							tokenPair = scan.getNextToken();
+						}
+						//tokenPair = scan.getNextToken();
+						sb.append(")(row), row)).orderBy(_1).map(_._2)");
+						newName= sb.toString();
+					}
 					writer.print(newName);
 					/*
 					 * This is where the transformation is going to go. Or rather,

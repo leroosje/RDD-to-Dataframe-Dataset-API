@@ -12,11 +12,9 @@ public class TokenGrammar {
 	}
 
 	/**
-	 * isSpace method was produced by Danny Reinheimer under Dr.
+	 * isSpace and isSymbol methods were produced by Danny Reinheimer under Dr.
 	 * Xipeng Shen, and was used with permission of Dr. Xipeng Shen.
 	 * 
-	 * 
-	 * isMetaStatement was originally produced by Danny Reinheimer but edited to fit the context of the program.
 	 * 
 	 * @author Danny Reinheimer @
 	 */

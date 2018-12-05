@@ -1,0 +1,19 @@
+test
+
+sc.textFile("test.txt").count()
+
+sc.textFile("test.txt").map(line => line.toInt).sum()
+
+sc.textFile("test.txt").sortBy(line => line.toInt,true,1).first()
+
+sc.textFile("test.txt").map(line=>line.toInt).max()
+
+sc.textFile("test.txt").map(line => line.toInt).filter(num => num > 5).foreach(println)
+
+sc.range(1,101).filter(num=>num%2==0).sum()
+
+reduce(paiubdfpasdifasdf)
+
+reduceByKey(ouasbdfibasdpofasd)
+
+

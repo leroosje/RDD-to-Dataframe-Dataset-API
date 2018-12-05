@@ -4,6 +4,7 @@
 
 /**
  * @author Danny Reinheimer
+ * This class was written under and used with permission of Dr. Xipeng Shen
  *
  */
 public class Pair<T1,T2> {

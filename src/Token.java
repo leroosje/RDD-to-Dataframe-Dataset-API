@@ -4,10 +4,12 @@
 
 /**
  * @author Danny Reinheimer
- *
+ * This class was mostly written under and used with permission of Dr. Xipeng Shen
+ * 
+ * Edits have been made to it in order to fit the project.
  */
 
-import java.util.ArrayList;
+
 
 public class Token {
 	
@@ -18,7 +20,7 @@ public class Token {
 	}
 	
 	/**
-	 * Takes in the parsed input and checks it againts all the regular expressions with priority
+	 * Takes in the parsed input and checks it against all the regular expressions with priority
 	 * @param str the input string to test
 	 * @return the name of the token
 	 */
