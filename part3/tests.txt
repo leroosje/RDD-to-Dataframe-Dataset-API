@@ -1,0 +1,64 @@
+tests for day:
+
+1996-10-31
+31
+2000-01-23
+23
+2004-05-30
+30
+2008-06-01
+01
+2012-12-31
+31
+2016-10-13
+13
+
+tests for lastday
+
+1996-10-31
+31
+2000-01-23
+31
+2004-05-30
+31
+2008-06-01
+30
+2012-12-31
+31
+2016-02-20
+28
+2018-11-13
+30
+
+test of reverse
+
+AbcdeF
+FedcbA
+
+Banana
+ananaB
+
+q w e r t y     //<-- space at the end
+ y t r e w q
+
+test of repeat
+
+string 3
+stringstringstring
+
+yeet 4
+yeetyeetyeetyeet
+
+paisudf 2
+paisudfpaisudf
+
+tests of concat
+
+ask jeeves
+askjeeves
+
+too much
+toomuch
+
+csc 512
+csc512
