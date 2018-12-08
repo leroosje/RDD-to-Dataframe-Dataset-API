@@ -1,4 +1,3 @@
 def concat(str1: String, str2: String) : String = {
-	var ret = str1 + str2
-	return ret
+	return str1 + str2
 }
