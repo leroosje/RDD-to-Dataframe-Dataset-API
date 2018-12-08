@@ -1,6 +1,7 @@
-def repeat(str: String, n: int) = {
-	var hold = str
-	for(i <- 1 until n){
-		str += hold
+def repeat(str: String, n: int) : String = {
+	var hold = "
+	for(i <- 0 until n){
+		hold = hold + str
 	}
+	return hold
 }
