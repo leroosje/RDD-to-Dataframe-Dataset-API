@@ -8,13 +8,12 @@ public class Main {
         final RddLexer lexer = new RddLexer(CharStreams.fromString(expr));
 
         final CommonTokenStream tokens = new CommonTokenStream(lexer);
-        tokens.fill();
         final RddParser parser = new RddParser(tokens);
         final RddListenerImpl listener = new RddListenerImpl();
         parser.addParseListener(listener);
         parser.start();
         System.out.println(listener.outPut());
-        System.out.println("done");
+        //System.out.println("done");
     }
 
     public static void main(String[] args){
