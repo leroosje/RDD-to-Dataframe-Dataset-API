@@ -64,20 +64,7 @@ public class Tokenization {
 					if(newName.equals("reduce")){
 						sb.append("select(reduceAggregator");
 						tokenPair = scan.getNextToken();
-						int i = 1;
-						while(i > 0) {
-							if(tokenPair.getValue().equals("("))i++;
-							if(tokenPair.getValue().equals(")"))i--;
-							sb.append(tokenPair.getValue());
-							tokenPair = scan.getNextToken();
-						}
-						sb.append(")).collect()");
-						newName = sb.toString();
-					}
-
-					if(newName.equals("reduceByKey")){
-						
-						sb.append("groupByKey(_._1).agg(reduceByKeyAggregator");
+						sb.append(tokenPair.getValue());
 						tokenPair = scan.getNextToken();
 						int i = 1;
 						while(i > 0) {
@@ -86,12 +73,31 @@ public class Tokenization {
 							sb.append(tokenPair.getValue());
 							tokenPair = scan.getNextToken();
 						}
-						sb.append("))");
+						sb.append(").collect()");
+						newName = sb.toString();
+					}
+
+					if(newName.equals("reduceByKey")){
+						
+						sb.append("groupByKey(_._1).agg(reduceByKeyAggregator");
+						tokenPair = scan.getNextToken();
+						sb.append(tokenPair.getValue());
+						tokenPair = scan.getNextToken();
+						int i = 1;
+						while(i > 0) {
+							if(tokenPair.getValue().equals("("))i++;
+							if(tokenPair.getValue().equals(")"))i--;
+							sb.append(tokenPair.getValue());
+							tokenPair = scan.getNextToken();
+						}
+						sb.append(")");
 						newName = sb.toString();
 					}
 
 					if(newName.equals("sortBy")){
 						sb.append("map(row=>(");
+						tokenPair = scan.getNextToken();
+						sb.append(tokenPair.getValue());
 						tokenPair = scan.getNextToken();
 						int i = 1;
 						while(i > 0) {
@@ -101,7 +107,7 @@ public class Tokenization {
 							tokenPair = scan.getNextToken();
 						}
 						//tokenPair = scan.getNextToken();
-						sb.append(")(row), row)).orderBy(_1).map(_._2)");
+						sb.append("(row), row)).orderBy(_1).map(_._2)");
 						newName= sb.toString();
 					}
 					writer.print(newName);
