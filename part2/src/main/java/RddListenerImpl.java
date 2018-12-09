@@ -5,6 +5,8 @@ public class RddListenerImpl extends RddBaseListener {
 
     private StartCtxTransformer transformer;
     private Map<String,String> idMap = new HashMap<>();
+    private static int nextId = 1;
+    private static int tupleId = 1;
     public String outPut(){
         if (transformer == null) return "not parsed!";
         return transformer.transform();
@@ -47,7 +49,6 @@ public class RddListenerImpl extends RddBaseListener {
             }
             MapopsCtxTransformer mapopsCtxTransformer = new MapopsCtxTransformer(ctx.mapops());
             UdfCtxTranformer udfCtxTranformer = new UdfCtxTranformer(ctx.udf());
-
             return mapopsCtxTransformer.transform() + String.format(".selectExpr(%s)",udfCtxTranformer.transform());
         }
     }
@@ -60,6 +61,8 @@ public class RddListenerImpl extends RddBaseListener {
         }
 
         String transform() {
+            nextId = 1;
+            tupleId = 1;
             ExprCtxTransformer exprCtxTransformer = new ExprCtxTransformer(ctx.expression());
             return exprCtxTransformer.transform();
 
@@ -113,15 +116,16 @@ public class RddListenerImpl extends RddBaseListener {
 
         String transform() {
             if(ctx.tupleexpression() == null){
-                PureExprCtxTransformer pureExprCtxTransformer = new PureExprCtxTransformer(ctx.pureexpression(1),1);
-                return String.format("\"%s as _%d\"", pureExprCtxTransformer.transfrom(), nextCol++);
+                PureExprCtxTransformer pureExprCtxTransformer = new PureExprCtxTransformer(ctx.pureexpression(0),1);
+                PureExprCtxTransformer pureExprCtxTransformer1 = new PureExprCtxTransformer(ctx.pureexpression(1),1);
+                return String.format("\"%s as _%d\",\"%s as _%d\"", pureExprCtxTransformer.transfrom(), tupleId++, pureExprCtxTransformer1.transfrom(), tupleId++);
             }
 
-            TupleExprCtxTransformer tupleExprCtxTransformer = new TupleExprCtxTransformer(ctx.tupleexpression(), 1);
+            TupleExprCtxTransformer tupleExprCtxTransformer = new TupleExprCtxTransformer(ctx.tupleexpression(), nextCol);
             PureExprCtxTransformer pureExprCtxTransformer = new PureExprCtxTransformer(ctx.pureexpression(0), 1);
 
             //return String.format("%s, %s as _%d", tupleExprCtxTransformer.transform(), pureExprCtxTransformer.transfrom(), asId++);
-            return String.format("%s, %s as _%d", tupleExprCtxTransformer.transform(), pureExprCtxTransformer.transfrom(), 1);
+            return String.format("%s, \"%s as _%d\"", tupleExprCtxTransformer.transform(), pureExprCtxTransformer.transfrom(), tupleId);
         }
     }
 
@@ -141,8 +145,9 @@ public class RddListenerImpl extends RddBaseListener {
             }
             //assignments ; simple
             AssignExprsCtxTransformer assignExprsCtxTransformer = new AssignExprsCtxTransformer(ctx.assignmentexpressions(),nextCol++);
+            assignExprsCtxTransformer.transform();
             SimpleExprCtxTransformer simpleExprCtxTransformer = new SimpleExprCtxTransformer(ctx.simpleexpression(),nextCol++);
-            return assignExprsCtxTransformer.transform()+","+simpleExprCtxTransformer.transform();
+            return simpleExprCtxTransformer.transform();
 
         }
     }
@@ -182,7 +187,7 @@ public class RddListenerImpl extends RddBaseListener {
 //            System.out.println(ctx.ID().getText());
 //            //test
 //            System.out.println(ctx.pureexpression().getText().substring(1));
-            return "\"_1 as _"+nextCol+"\"";
+            return "";
         }
     }
 
@@ -208,12 +213,12 @@ public class RddListenerImpl extends RddBaseListener {
             }
             //ID DOT ID
             else if(ctx.ID(0)!=null && ctx.DOT()!=null){
-                return "_"+nextCol;
+                return "_"+(nextId++);
             }
             //ID
             else if(ctx.ID()!=null && ctx.OP() == null){
                 String expr = idMap.getOrDefault(ctx.ID(0).getText(),"");
-                return "_"+nextCol+expr;
+                return "_"+(nextId)+expr;
             }
             //(pureexpression)
             else if(ctx.LP()!=null && ctx.pureexpression(0)!=null && ctx.pureexpression(1)==null){
