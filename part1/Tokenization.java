@@ -64,7 +64,10 @@ public class Tokenization {
 					if(newName.equals("reduce")){
 						sb.append("select(reduceAggregator");
 						tokenPair = scan.getNextToken();
-						while(!tokenPair.getValue().equals(")")) {
+						int i = 1;
+						while(i > 0) {
+							if(tokenPair.getValue().equals("("))i++;
+							if(tokenPair.getValue().equals(")"))i--;
 							sb.append(tokenPair.getValue());
 							tokenPair = scan.getNextToken();
 						}
@@ -76,7 +79,10 @@ public class Tokenization {
 						
 						sb.append("groupByKey(_._1).agg(reduceByKeyAggregator");
 						tokenPair = scan.getNextToken();
-						while(!tokenPair.getValue().equals(")")) {
+						int i = 1;
+						while(i > 0) {
+							if(tokenPair.getValue().equals("("))i++;
+							if(tokenPair.getValue().equals(")"))i--;
 							sb.append(tokenPair.getValue());
 							tokenPair = scan.getNextToken();
 						}
@@ -87,7 +93,10 @@ public class Tokenization {
 					if(newName.equals("sortBy")){
 						sb.append("map(row=>(");
 						tokenPair = scan.getNextToken();
-						while(!tokenPair.getValue().equals(")")) {
+						int i = 1;
+						while(i > 0) {
+							if(tokenPair.getValue().equals("("))i++;
+							if(tokenPair.getValue().equals(")"))i--;
 							sb.append(tokenPair.getValue());
 							tokenPair = scan.getNextToken();
 						}
