@@ -1,3 +1,3 @@
-ltrim(" foo  bar")
-ltrim("   foo  bar")
-ltrim("foo  bar")
+lpad("hi",5,"??")
+lpad("hi",1,"??")
+lpad("hi",3,"??")
